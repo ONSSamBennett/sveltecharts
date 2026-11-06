@@ -364,3 +364,24 @@ This document records significant architectural, technical, and design decisions
 ## Version History
 
 - **v0.1.0** (2026-11-06) — Initial decision log created; decisions 1-13 finalized
+
+## Development Progress
+
+### Completed
+- [x] Project setup and build configuration
+- [x] Utility functions (data, colors, format, validation)
+- [x] BarChart component with identity-keyed transitions
+- [x] Sub-components (Axis, Tooltip)
+- [x] Demo page with interactive testing
+
+### In Progress
+- [ ] Component testing (unit tests for BarChart)
+- [ ] Accessibility audit (WCAG 2.1 AA verification)
+- [ ] Performance benchmarking
+- [ ] Storybook setup
+
+### Planned
+- [ ] Additional chart types (LineChart, ColumnChart, etc.)
+- [ ] Annotation system
+- [ ] Theme customization API
+- [ ] Export functionality (SVG/PNG)
