@@ -163,6 +163,45 @@ Each entry includes:
 - Interactive annotation toolbar (rejected: Phase 2+ feature)
 - Load annotations from file (rejected: parent app can manage this)
 
-**Status:** Active
+---
+
+### D6: Chart Transition Matrix Based on AniVis Research
+
+**Date:** 2026-11-06  
+**Decision:** Created a comprehensive transition matrix (TRANSITION_MATRIX.md) documenting which chart-to-chart morphing transitions are viable in Phase 2+ based on AniVis research (Li et al., 2021).
+
+**Categories:**
+1. **✅ Recommended (Low-to-Medium Complexity)** — Prioritize these for Phase 2
+   - Bar ↔ Column (90° rotation)
+   - Line ↔ Area (boundary morphing)
+   - Bar/Column ↔ Scatter (mark compression)
+   - Multi-series composition changes (grouped ↔ stacked)
+
+2. **⚠️ Possible (Medium-to-High Complexity)** — May implement in Phase 2 if staged animation is used
+   - Range chart variants (arrow ↔ bar)
+   - Slope ↔ Column (requires intermediate steps)
+   - Heatmap ↔ Scatter (requires remapping)
+   - Population Pyramid ↔ Area/Column
+
+3. **❌ Not Recommended (High Complexity / Semantic Mismatch)** — Phase 3+ or avoid
+   - Pie ↔ Any other chart (axis model mismatch)
+   - Aggregation/Disaggregation direct morphs (information loss)
+   - Multi-dimensional schema changes
+
+**Rationale:**
+- Based on AniVis principles: data schema compatibility, mark morphing feasibility, and staged animation sequences
+- Viability determined by:
+  1. Data schema compatibility (tree model equivalence)
+  2. Mark correspondence (can paths morph geometrically?)
+  3. Axis compatibility (can axes transition meaningfully?)
+
+**Key Findings:**
+- Recommended transitions preserve data schema and have clear mark correspondence
+- Possible transitions require staged animation (following AniVis sequencing principles)
+- Not recommended transitions have semantic shifts too large for single morphing
+- Phase 2 should focus on recommended transitions; possible transitions as extended scope
+- Follow AniVis principles: break complex transitions into stages for clarity
+
+**Status:** Active (Phase 2 guidance, MVP focus is single-chart rendering)
 
 *More decisions will be recorded as development progresses.*
