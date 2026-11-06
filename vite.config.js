@@ -1,16 +1,10 @@
-// vite.config.js
-import { sveltekit } from "@sveltejs/kit/vite";
+import { defineConfig } from 'vite'
+import { svelte } from '@sveltejs/vite-plugin-svelte'
 
-/** @type {import('vite').UserConfig} */
-const config = {
-	plugins: [sveltekit()],
-	//removes console.logs in production
-	esbuild: {
-		drop: ["console", "debugger"]
-	},
-	ssr: {
-		noExternal: ["layercake"]
-	}
-};
-
-export default config;
+export default defineConfig({
+  plugins: [svelte()],
+  server: {
+    port: 5173,
+    host: true
+  }
+})
