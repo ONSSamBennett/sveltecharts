@@ -81,5 +81,77 @@ Each entry includes:
 
 **Status:** Active
 
-*More decisions will be recorded as development progresses.*
+---
 
+### D4: Series Filtering Handled by Parent App (Not Chart)
+
+**Date:** 2026-11-06  
+**Decision:** Charts do not include built-in dropdown or series filtering UI. Series selection/filtering is handled by the parent Svelte component. Charts remain reactive to data prop changes and smoothly transition when parent updates the data.
+
+**Rationale:**
+- Decouples chart logic from UI framework concerns
+- Parent app has full control over filtering UI (dropdown, buttons, checkboxes, etc.)
+- Chart focuses on visualization, parent handles state management
+- Simpler chart API (no dropdown config needed)
+- More flexible for users (can implement any filtering pattern)
+
+**Implementation:**
+- Chart receives `data` prop with already-filtered dataset
+- When parent changes data (user selects different series in dropdown), chart smoothly transitions
+- Identity-based keying ensures elements track through reorderings/filtering
+
+**Example:**
+```svelte
+<!-- Parent component -->
+<script>
+  let selectedSeries = ['A', 'B'];
+  $: filteredData = data.filter(d => selectedSeries.includes(d.series));
+</script>
+
+<select bind:value={selectedSeries} multiple>
+  <option value="A">Series A</option>
+  <option value="B">Series B</option>
+</select>
+
+<!-- Chart just receives pre-filtered data, smoothly re-renders -->
+<BarChart data={filteredData} {config} />
+```
+
+**Alternatives Considered:**
+- Built-in dropdown UI in chart (rejected: inflexible, duplicates parent app's filtering logic)
+- Chart manages visible series state (rejected: couples chart to state management)
+
+**Status:** Active
+
+---
+
+### D5: Annotation Types: Point and Directional (Not Region or Toolbar)
+
+**Date:** 2026-11-06  
+**Decision:** Annotations are limited to two types in MVP: point annotations (highlight specific data points with optional arrows) and directional annotations (arrows pointing along axes). No region highlighting, region annotations, or interactive annotation toolbar.
+
+**Rationale:**
+- Point and directional annotations cover most common use cases (highlighting outliers, indicating trends)
+- Simpler to implement (no region intersection logic or toolbar UI)
+- Region highlighting adds complexity (which chart elements to highlight, z-order issues)
+- Toolbar is UI editor, better handled in Phase 2+ after core annotation system is stable
+- Annotations are SVG overlays, fully customizable via slot if users need more complex patterns
+
+**Annotation Types:**
+- **Point Annotation:** Arrow + label pointing to a specific data point
+  - Config: `type: 'point'`, `dataKey`, `label`, `showArrow`, `arrowPosition`
+- **Directional Annotation:** Arrow pointing up/down/left/right along an axis
+  - Config: `type: 'directional'`, `axis`, `position`, `direction`, `label`
+
+**Customization:**
+- Default rendering via ONS styling
+- Fully overridable via `slot="annotations"` for custom patterns
+
+**Alternatives Considered:**
+- Region highlighting (rejected: complex geometry, limited use cases)
+- Load annotations from file (rejected: beyond MVP scope, can be done in parent app)
+- Interactive annotation toolbar (rejected: Phase 2+ feature)
+
+**Status:** Active
+
+*More decisions will be recorded as development progresses.*

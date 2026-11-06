@@ -16,12 +16,13 @@ Chart variations are driven by **configuration attributes** passed into the conf
     - `layout: 'grouped'` — Grouped bars (comparison)
     - `layout: 'clustered'` — Clustered bars
     - `layout: 'stacked-grouped'` — Combined stacking and grouping
-    - `interactive: { mode: 'dropdown', visibleSeries: [...] }` — Series selection
+  - Reactive to series filtering: data prop updates trigger smooth transitions
 - [ ] **Column Chart** (vertical bars for time series)
   - Config: `orientation: 'vertical'`, `layout: 'single'`
   - Same layout variations as bar chart
   - Optional line overlay: `overlayLine: { seriesKey: '...' }`
   - Optional CI bands: `confidenceInterval: { lowerKey: '...', upperKey: '...' }`
+  - Reactive to series filtering: data prop updates trigger smooth transitions
 
 **Line / Area Chart**
 - [ ] **Line Chart** (single or multi-series time series)
@@ -31,10 +32,11 @@ Chart variations are driven by **configuration attributes** passed into the conf
     - `confidenceInterval: { ... }` — Show CI area alongside line
     - `interactive: { mode: 'guideline'|'snap'|'focus'|'hover' }` — Tooltip behavior
     - `responsiveMode: 'sm-focus'|'sm-multiseries'|'full'` — Small-screen optimization
-    - `interactive: { mode: 'dropdown' }` — Series selection
+  - Reactive to series filtering: data prop updates trigger smooth transitions
 - [ ] **Area Chart** (stacked area for composition over time)
   - Config: `type: 'area'`, `layout: 'stacked'`, `chartShape: 'path'`
   - Same interactivity options as line chart
+  - Reactive to series filtering: data prop updates trigger smooth transitions
 
 **Range / Uncertainty Charts**
 - [ ] **Range Chart** (show ranges and uncertainty)
@@ -64,11 +66,23 @@ Chart variations are driven by **configuration attributes** passed into the conf
 - Annotation layers (text, arrows, highlights)
 
 #### Annotations
-- [ ] **Annotation Layer** (configurable per chart type)
-  - `annotations: [{ type: 'region', startX, endX, label }, ...]`
-  - Highlight regions, add text labels, draw reference lines
-  - Load from external config file or inline
-  - **Future:** Interactive annotation toolbar (Phase 2+)
+
+- [ ] **Point Annotation** — Highlight a specific data point with optional arrow
+  - `type: 'point'`, `dataKey: '...'` (identify which data point to annotate)
+  - `label: 'string'` — Text label for the annotation
+  - `showArrow: true/false` — Optional arrow pointing to the data point
+  - `arrowPosition: 'left'|'right'|'top'|'bottom'` — Where label appears relative to point
+
+- [ ] **Directional Annotation** — Arrow pointing in a direction along an axis
+  - `type: 'directional'`, `axis: 'x'|'y'` — Which axis to annotate
+  - `position: number` — Position along the axis (in data coordinates)
+  - `direction: 'up'|'down'|'left'|'right'` — Arrow direction (perpendicular to axis)
+  - `label: 'string'` — Text label for the annotation
+
+- [ ] **Annotation Configuration**
+  - `annotations: [{ type, label, ... }, ...]` — Array of annotations to display
+  - Annotations render as SVG overlays, styled with ONS defaults
+  - Fully customizable via slot: `<svelte:fragment slot="annotations">` (can override rendering)
 
 ### 1.2 Architecture: Design for Future Chart Morphing
 
@@ -204,8 +218,11 @@ This architecture preserves flexibility for Phase 2 without adding complexity to
 - [ ] **Legends** — Interactive legend (click to toggle series on/off)
 - [ ] **Zoom/Pan** — Optional zoom on time series; pan for large datasets
 - [ ] **Focus Highlighting** — Dim non-hovered series (small-screen focus)
-- [ ] **Dropdown Filters** — Select subset of series to display (configurable)
-- [ ] **Annotations** — Add text boxes, arrows, highlights for context
+- [ ] **Reactive to Data Changes** — When parent component filters/updates data (e.g., via dropdown in parent app), chart smoothly re-renders with identity-based transitions
+  - Chart receives updated `data` prop
+  - Series filtering handled by parent (chart just renders what it receives)
+  - Smooth animations track element identity through changes
+- [ ] **Annotations** — Add point and directional annotations for context (see 1.1 Annotations section)
 - [ ] **Smooth data transitions** — Elements track their identity through data updates (e.g., bar for "A" smoothly moves to new position when data reorders)
 
 #### Accessibility (WCAG 2.1 AA)
