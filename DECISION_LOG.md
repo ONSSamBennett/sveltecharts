@@ -125,32 +125,43 @@ Each entry includes:
 
 ---
 
-### D5: Annotation Types: Point and Directional (Not Region or Toolbar)
+### D5: Annotation Types: Point, Directional, Range, and Line (Not Region Editor or Toolbar)
 
 **Date:** 2026-11-06  
-**Decision:** Annotations are limited to two types in MVP: point annotations (highlight specific data points with optional arrows) and directional annotations (arrows pointing along axes). No region highlighting, region annotations, or interactive annotation toolbar.
+**Decision:** MVP supports four annotation types: point (highlight data points), directional (arrows along axes), range (highlight regions), and line (reference lines). No region editor UI or interactive annotation toolbar.
 
 **Rationale:**
-- Point and directional annotations cover most common use cases (highlighting outliers, indicating trends)
-- Simpler to implement (no region intersection logic or toolbar UI)
-- Region highlighting adds complexity (which chart elements to highlight, z-order issues)
-- Toolbar is UI editor, better handled in Phase 2+ after core annotation system is stable
-- Annotations are SVG overlays, fully customizable via slot if users need more complex patterns
+- These four types cover the most common annotation use cases:
+  - Point: highlighting outliers or specific values
+  - Directional: indicating trends or changes
+  - Range: marking significant periods or regions
+  - Line: marking thresholds, averages, targets
+- Simpler to implement than complex region editors
+- Annotations are SVG overlays, fully customizable via slot if users need advanced patterns
+- Interactive toolbar is Phase 2+ feature (after core system is stable)
 
 **Annotation Types:**
-- **Point Annotation:** Arrow + label pointing to a specific data point
-  - Config: `type: 'point'`, `dataKey`, `label`, `showArrow`, `arrowPosition`
-- **Directional Annotation:** Arrow pointing up/down/left/right along an axis
-  - Config: `type: 'directional'`, `axis`, `position`, `direction`, `label`
+
+1. **Point Annotation** — Highlight specific data point + optional arrow
+   - Config: `type: 'point'`, `dataKey`, `label`, `showArrow`, `arrowPosition`
+
+2. **Directional Annotation** — Arrow pointing along an axis (up/down/left/right)
+   - Config: `type: 'directional'`, `axis`, `position`, `direction`, `label`
+
+3. **Range Annotation** — Highlight a range/region on the chart
+   - Config: `type: 'range'`, `axis`, `start`, `end`, `label`, `fillColor`
+
+4. **Line Annotation** — Reference line (vertical or horizontal)
+   - Config: `type: 'line'`, `axis`, `position`, `label`, `lineStyle`
 
 **Customization:**
 - Default rendering via ONS styling
 - Fully overridable via `slot="annotations"` for custom patterns
 
 **Alternatives Considered:**
-- Region highlighting (rejected: complex geometry, limited use cases)
-- Load annotations from file (rejected: beyond MVP scope, can be done in parent app)
+- Region editor UI (rejected: UI editor scope, better for Phase 2+)
 - Interactive annotation toolbar (rejected: Phase 2+ feature)
+- Load annotations from file (rejected: parent app can manage this)
 
 **Status:** Active
 

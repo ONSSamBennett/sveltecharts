@@ -79,6 +79,20 @@ Chart variations are driven by **configuration attributes** passed into the conf
   - `direction: 'up'|'down'|'left'|'right'` — Arrow direction (perpendicular to axis)
   - `label: 'string'` — Text label for the annotation
 
+- [ ] **Range Annotation** — Highlight a range/region on the chart
+  - `type: 'range'`, `axis: 'x'|'y'` — Which axis to annotate
+  - `start: number`, `end: number` — Range start and end (in data coordinates)
+  - `label: 'string'` — Optional text label
+  - `fillColor: string` — Color for the highlighted region (with transparency)
+  - Useful for highlighting significant periods, ranges, or regions of interest
+
+- [ ] **Line Annotation** — Draw a reference line (vertical or horizontal)
+  - `type: 'line'`, `axis: 'x'|'y'` — Which axis the line is perpendicular to
+  - `position: number` — Position along the axis (in data coordinates)
+  - `label: 'string'` — Optional text label for the line
+  - `lineStyle: 'solid'|'dashed'|'dotted'` — Line style
+  - Useful for marking thresholds, averages, targets, or reference values
+
 - [ ] **Annotation Configuration**
   - `annotations: [{ type, label, ... }, ...]` — Array of annotations to display
   - Annotations render as SVG overlays, styled with ONS defaults
