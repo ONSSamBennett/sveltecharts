@@ -1,20 +1,18 @@
 # Decision Log
 
-Record of key architectural decisions and rationale for the SvelteCharts library.
+Record of key architectural and technical decisions made during SvelteCharts development.
 
 ## Format
 
-Each decision includes:
-- **Date**: When the decision was made
-- **Decision**: What was decided
-- **Rationale**: Why this decision was made
-- **Alternatives Considered**: Other options that were evaluated
-- **Status**: Active, Superseded, or Deprecated
+Each entry includes:
+- **Decision** — What was decided
+- **Rationale** — Why this decision was made  
+- **Alternatives** — Other options considered
+- **Status** — Active, Superseded, or Deferred
 
 ---
 
 ## Decisions
 
-### TBD
+*Decisions will be recorded here as development progresses.*
 
-Future decisions will be recorded here as development progresses.
