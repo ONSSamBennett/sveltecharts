@@ -214,19 +214,24 @@ This document records significant architectural, technical, and design decisions
 
 ## Build & Tooling
 
-### 9. Build System: TBD (Rollup vs SvelteKit)
+### 9. Build System: Vite (Not Rollup)
 **Date:** 2026-11-06  
-**Status:** 🔄 Pending Decision  
-**Decision Point:** Decide on build system (Rollup for library, or SvelteKit package mode).
+**Status:** ✅ Decided  
+**Decision:** Use Vite as the build system (not Rollup) for development and testing, with option to export as library.
 
-**Current Status:**
-- Existing svelte-charts uses Rollup
-- SvelteKit now has better library/package export support
+**Rationale:**
+- Vite provides faster development experience with HMR (hot module reload)
+- Excellent Svelte support via @sveltejs/vite-plugin-svelte
+- Built-in dev server perfect for testing components in real-time
+- Library export possible via Vite config
+- Simpler configuration than Rollup for team familiar with Vite
 
-**Next Steps:**
-- Evaluate both approaches early in development
-- Consider npm package output, ESM/CJS dual builds
-- Make decision before first commit to build config
+**Existing svelte-charts uses Rollup** for library build, but we're taking a modern approach with Vite for MVP development. We can revisit library packaging strategy in Phase 2.
+
+**Build Outputs:**
+- Dev: `npm run dev` — Vite dev server on http://localhost:5173
+- Build: `npm run build` — Production-optimized output to `/dist/`
+- Test: `npm run test` — Vitest component testing
 
 ---
 
