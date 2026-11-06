@@ -1,3 +1,4 @@
+<script>
 /**
  * BarChart.svelte - Horizontal bar chart with identity-keyed transitions
  * 
@@ -25,11 +26,10 @@
  * @param {boolean} config.showGridlines - Show horizontal gridlines (default: true)
  */
 
-<script>
   import { onMount } from 'svelte';
   import * as d3 from 'd3';
   import { getPaletteColor, getContrastColor } from '$utils';
-  import Tooltip from './Tooltip.svelte';
+  import Tooltip from '../sub-components/Tooltip.svelte';
 
   // Props
   export let data = [];

@@ -1,9 +1,9 @@
+<script>
 /**
  * Tooltip.svelte - Accessible tooltip component with multiple interaction modes
  * Supports: hover, guideline, snap, click modes
  */
 
-<script>
   import { getPaletteColor, getContrastColor } from '$utils';
 
   /**
