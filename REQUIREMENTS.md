@@ -4,43 +4,163 @@
 
 ### 1.1 Supported Chart Types
 
-#### Basic Charts
-- [ ] **Bar Chart** — Horizontal bars for categorical data
-- [ ] **Bar Chart Stacked** — Horizontal stacked bars for composition
-- [ ] **Bar Chart Clustered** — Multiple bars per category for comparison
-- [ ] **Bar Chart Grouped** — Groups of bars separated by category
-- [ ] **Bar Chart Stacked-Grouped** — Combined stacking and grouping
-- [ ] **Bar Chart with Dropdown** — Interactive series selection via dropdown
-- [ ] **Column Chart** — Vertical bars (time series default)
-- [ ] **Column Chart Stacked with Optional Line** — Stacked columns + line overlay
+Chart variations are driven by **configuration attributes** passed into the config object, not separate components. This design enables future morphing transitions between chart types (Phase 2+).
 
-#### Statistical/Advanced Charts
-- [ ] **Line Chart** — Single or multi-series time series
-- [ ] **Line Chart with CI Area** — Line + confidence interval shading
-- [ ] **Line Chart Dropdown Options** — Interactive series selection
-- [ ] **Line Chart SM Focus** — Small-screen variant with focus interaction
-- [ ] **Line Chart SM Multiseries** — Small-screen multi-series optimization
-- [ ] **Area Stacked** — Stacked area chart for composition over time
-- [ ] **Area Stacked SM** — Small-screen variant
-- [ ] **Column Chart with CI Bands** — Column chart + confidence interval bands
-- [ ] **Range Charts** (Arrow/Dot/Bar/Reference) — Show ranges and uncertainty
-- [ ] **Range CI Area Grouped** — Grouped range charts with confidence intervals
+#### Primary Chart Types (MVP)
 
-#### Specialty Charts
-- [ ] **Scatter Bubble Plot** — Multi-dimensional data (x, y, size, color)
-- [ ] **Beeswarm** — Dense point distribution with collision avoidance
-- [ ] **Heatmap** — 2D matrix visualization with color encoding
-- [ ] **Slope Chart** — Show change between two points
-- [ ] **Waterfall Chart** — Cumulative flow (starting point → steps → ending point)
-- [ ] **Population Pyramid** — Age/gender distribution mirror bars
-- [ ] **Pie Chart** — (If applicable to ONS use) — Categorical proportions
-- [ ] **Doughnut Chart** — Pie variant with center empty space
+**Bar / Column Chart**
+- [ ] **Bar Chart** (horizontal bars for categorical data)
+  - Config: `orientation: 'horizontal'`, `layout: 'single'`
+  - Variations via config:
+    - `layout: 'stacked'` — Stacked bars (composition)
+    - `layout: 'grouped'` — Grouped bars (comparison)
+    - `layout: 'clustered'` — Clustered bars
+    - `layout: 'stacked-grouped'` — Combined stacking and grouping
+    - `interactive: { mode: 'dropdown', visibleSeries: [...] }` — Series selection
+- [ ] **Column Chart** (vertical bars for time series)
+  - Config: `orientation: 'vertical'`, `layout: 'single'`
+  - Same layout variations as bar chart
+  - Optional line overlay: `overlayLine: { seriesKey: '...' }`
+  - Optional CI bands: `confidenceInterval: { lowerKey: '...', upperKey: '...' }`
+
+**Line / Area Chart**
+- [ ] **Line Chart** (single or multi-series time series)
+  - Config: `type: 'line'`, `chartShape: 'path'`
+  - Variations via config:
+    - `multiSeries: true/false` — Single vs. multi-series
+    - `confidenceInterval: { ... }` — Show CI area alongside line
+    - `interactive: { mode: 'guideline'|'snap'|'focus'|'hover' }` — Tooltip behavior
+    - `responsiveMode: 'sm-focus'|'sm-multiseries'|'full'` — Small-screen optimization
+    - `interactive: { mode: 'dropdown' }` — Series selection
+- [ ] **Area Chart** (stacked area for composition over time)
+  - Config: `type: 'area'`, `layout: 'stacked'`, `chartShape: 'path'`
+  - Same interactivity options as line chart
+
+**Range / Uncertainty Charts**
+- [ ] **Range Chart** (show ranges and uncertainty)
+  - Config: `type: 'range'`
+  - Variations via config:
+    - `rangeMarker: 'arrow'|'dot'|'bar'|'reference'` — Marker type
+    - `grouping: 'flat'|'grouped'` — Grouped with CI
+    - `hasConfidenceInterval: true/false` — Include CI bands
+
+**Multivariate / Specialty Charts**
+- [ ] **Scatter / Bubble Chart** (multi-dimensional: x, y, size, color)
+  - Config: `type: 'scatter'`, `bubbleSize: { key: '...' }`, `bubbleColor: { key: '...' }`
+- [ ] **Beeswarm Chart** (dense point distribution with collision avoidance)
+  - Config: `type: 'beeswarm'`, `collisionForce: strength`
+- [ ] **Heatmap** (2D matrix with color encoding)
+  - Config: `type: 'heatmap'`, `rowKey: '...'`, `columnKey: '...'`, `valueKey: '...'`
+- [ ] **Slope Chart** (show change between two points)
+  - Config: `type: 'slope'`, `timePoints: ['start', 'end']`
+- [ ] **Waterfall Chart** (cumulative flow)
+  - Config: `type: 'waterfall'`, `startingValue: X`, `isTotal: [indices]`
+- [ ] **Population Pyramid** (age/gender distribution mirror bars)
+  - Config: `type: 'pyramid'`, `maleSeriesKey: '...'`, `femaleSeriesKey: '...'`
+
+#### Phase 2+ Chart Types
+- Pie / Doughnut (categorical proportions, primarily for comms use)
+- Range variants (advanced CI + grouped)
+- Annotation layers (text, arrows, highlights)
 
 #### Annotations
-- [ ] **Annotation Bar** — Highlight regions on bar/column charts
-- [ ] **Annotation Column** — Highlight regions on column charts
-- [ ] **Annotation Load from File** — Load annotations from external config
-- [ ] **Annotation Toolbar** — Interactive annotation UI for chart editing
+- [ ] **Annotation Layer** (configurable per chart type)
+  - `annotations: [{ type: 'region', startX, endX, label }, ...]`
+  - Highlight regions, add text labels, draw reference lines
+  - Load from external config file or inline
+  - **Future:** Interactive annotation toolbar (Phase 2+)
+
+### 1.2 Architecture: Design for Future Chart Morphing
+
+**Vision (Phase 2+):** Enable smooth animated transitions between chart types (e.g., bars → dots when switching from BarChart to ScatterChart), with the same data elements maintaining their identity and position throughout the animation.
+
+**MVP Constraint:** This capability is not built into the MVP, but MVP component architecture **must accommodate it** to avoid major refactoring in Phase 2.
+
+#### Technical Implications for MVP Development
+
+1. **Use SVG Paths for All Visual Elements**
+   - Instead of rect, circle, line elements, render charts as SVG `<path>` elements
+   - Paths can be mathematically reshaped and morphed (via d3-interpolate or Svelte transitions)
+   - Bars, dots, lines, areas all expressible as paths with changeable `d` attributes
+   - Data elements can transition from one `d` (rect shape) to another `d` (circle shape) smoothly
+
+2. **Consistent Data Element Keying**
+   - Every data point rendered as a distinct `<path>` with a stable `key` or `id`
+   - Use identity-based keying throughout (already in requirements)
+   - Enables element tracking across chart type changes (in future phases)
+
+3. **Parameterized Shape Functions**
+   - Encapsulate shape rendering in utility functions, not inline SVG generation
+   - Example: `barShape(x, y, width, height)` returns SVG `<path>` `d` attribute
+   - Example: `dotShape(cx, cy, radius)` returns SVG `<path>` `d` attribute
+   - Makes it easy to interpolate between different shape functions
+
+4. **Modular Coordinate Systems**
+   - Scales (x, y) should be pure functions, not coupled to chart type
+   - Same data point can be positioned differently in different chart types
+   - Transition between chart types = interpolate scale outputs + morph shape paths
+
+5. **Sub-Component Reuse**
+   - Axes, Legends, Tooltips should be standalone and reusable
+   - Allow rendering multiple chart types side-by-side or stacked
+   - Future morphing may need to blend or animate between axes
+
+#### Practical MVP Decisions
+
+- [ ] **BarChart:** Render each bar as `<path>` (not `<rect>`)
+- [ ] **LineChart:** Render lines as `<path>` (not `<line>` or `<polyline>`)
+- [ ] **AreaChart:** Render areas as `<path>` (not `<polygon>`)
+- [ ] **ScatterChart:** Render dots as `<path>` (not `<circle>`)
+- [ ] **All charts:** Add `data-key` or `data-id` attribute to each rendered path for tracking identity
+- [ ] **Coordinate logic:** Separate scale generation and positioning from shape rendering
+- [ ] **Transitions:** Use Svelte transitions + d3-interpolate to animate `d` attribute changes during data updates (MVP feature)
+- [ ] **Testing:** Verify elements maintain identity across data reorders (already in test requirements, 5.1)
+
+#### Example: Bars as Paths
+
+```javascript
+// Shape renderer for bars
+export function barPath(x, y, width, height) {
+  return `M ${x} ${y} L ${x + width} ${y} L ${x + width} ${y + height} L ${x} ${y + height} Z`;
+}
+
+// In BarChart component
+{#each data as point (point.key)}
+  <path
+    d={barPath(xScale(point.category), yScale(point.value), barWidth, yScale(0) - yScale(point.value))}
+    transition:animate
+  />
+{/each}
+```
+
+#### Example: Future Morphing (Phase 2)
+
+```javascript
+// Morph from bar to dot shape
+export function morphShape(fromShape, toShape, t) {
+  // Interpolate between two path `d` values using d3-interpolate
+  return d3.interpolatePath(fromShape, toShape)(t);
+}
+
+// In future transition handler
+{#each data as point (point.key)}
+  <path
+    d={morphShape(
+      barPath(...),     // old shape
+      dotShape(...),    // new shape
+      morphProgress     // animation progress 0→1
+    )}
+  />
+{/each}
+```
+
+#### Non-MVP Alternatives Rejected
+
+❌ Using separate `<rect>`, `<circle>`, `<line>` elements (hard to morph between types)  
+❌ Canvas rendering (not accessible, harder to customize)  
+❌ Separate components per chart type with no shared shape logic (duplication, harder to evolve)
+
+This architecture preserves flexibility for Phase 2 without adding complexity to the MVP.
 
 ### 1.2 Core Features
 

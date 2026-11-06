@@ -165,6 +165,7 @@ This document captures the user-centered requirements and pain points that drive
 - 🎯 **Dropdown & filtering UI** — Interactive controls built-in
 - 📱 **Mobile optimizations** — Touch interactions, responsive legends
 - 🧩 **Advanced composition** — Scoped slots for data-driven customization
+- 🎬 **Chart morphing transitions** — Smooth animated transitions between chart types (e.g., bars → dots when switching from BarChart to ScatterChart); same data elements maintain identity throughout
 
 ### Phase 3+
 - 🔄 **Export formats** — SVG/PNG download with full styling
