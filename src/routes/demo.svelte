@@ -1,6 +1,6 @@
 <script>
   import BarChart from '$components/BarChart.svelte';
-  import { barChartData } from '$lib/../data/index.js';
+  import { barChartData } from '../data/index.js';
   import { formatNumber } from '$utils';
 
   let chartData = [...barChartData];

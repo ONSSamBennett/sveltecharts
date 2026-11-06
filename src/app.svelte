@@ -3,6 +3,14 @@
   import Demo from './routes/demo.svelte';
   
   let currentPage = 'home';
+  
+  function handleNavHome() {
+    currentPage = 'home';
+  }
+  
+  function handleNavDemo() {
+    currentPage = 'demo';
+  }
 </script>
 
 <main>
@@ -12,10 +20,10 @@
   </header>
 
   <nav class="nav">
-    <button on:click={() => (currentPage = 'home')} class:active={currentPage === 'home'}>
+    <button on:click={handleNavHome} class:active={currentPage === 'home'}>
       Home
     </button>
-    <button on:click={() => (currentPage = 'demo')} class:active={currentPage === 'demo'}>
+    <button on:click={handleNavDemo} class:active={currentPage === 'demo'}>
       Chart Demo
     </button>
   </nav>
