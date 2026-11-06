@@ -1,39 +1,57 @@
-<h2>Welcome to SvelteCharts</h2>
+<script>
+	import { resolve } from "$app/paths";
+	import { Section, Grid, Card } from "@onsvisual/svelte-components";
+</script>
 
-<p>This is a development environment for testing and building the SvelteCharts library.</p>
+<Section marginTop={true}>
+	<h1>Welcome to SvelteCharts</h1>
+	<p>
+		A comprehensive charting library for Svelte 5+, designed for the Office for National Statistics
+		(ONS) with accessibility and data-driven design at its core.
+	</p>
+</Section>
 
-<h3>Quick Links</h3>
-<ul>
-	<li><a href="/charts">View Chart Components</a> - Interactive chart demonstrations</li>
-	<li><a href="https://github.com/ONSSamBennett/sveltecharts">GitHub Repository</a></li>
-</ul>
+<Section>
+	<h2>Key Features</h2>
+	<Grid>
+		<Card title="Identity-Keyed Transitions" baseline>
+			Smooth animations when data reorders, tracking elements by their identifying variables for intuitive
+			visual feedback.
+		</Card>
+		<Card title="Accessible Tooltips" baseline>
+			Four interaction modes (hover, guideline, snap, click) to handle dense data and diverse user needs.
+		</Card>
+		<Card title="WCAG 2.1 AA Compliant" baseline>
+			Full accessibility compliance including keyboard navigation, screen reader support, and reduced
+			motion respect.
+		</Card>
+		<Card title="Slot-Based Composition" baseline>
+			Customize every chart element without forking or complex CSS, using Svelte's powerful slot API.
+		</Card>
+	</Grid>
+</Section>
 
-<h3>About SvelteCharts</h3>
-<p>
-	SvelteCharts is a comprehensive charting library for Svelte 4+, providing 15+ chart types with:
-</p>
-<ul>
-	<li>✅ Identity-keyed data transitions for smooth animations</li>
-	<li>✅ Accessible tooltips with multiple interaction modes (hover, guideline, snap, click)</li>
-	<li>✅ WCAG 2.1 AA compliance</li>
-	<li>✅ Slot-based composition for customization</li>
-	<li>✅ ONS design system integration</li>
-</ul>
-
-<h3>Getting Started</h3>
-<p>Check out the <a href="/charts">Charts Demo</a> page to see components in action.</p>
-
-<style>
-	ul {
-		line-height: 1.8;
-	}
-
-	a {
-		color: #0087be;
-		font-weight: 500;
-	}
-
-	a:hover {
-		text-decoration: underline;
-	}
-</style>
+<Section>
+	<h2>Get Started</h2>
+	<Grid>
+		<Card title="Chart Components" href={resolve("/charts")} mode="featured" baseline>
+			Browse and test individual chart components with interactive examples.
+		</Card>
+		<Card
+			title="GitHub Repository"
+			href="https://github.com/ONSSamBennett/sveltecharts"
+			mode="featured"
+			baseline
+		>
+			View the source code and contribute to the project.
+		</Card>
+		<Card
+			title="ONS Components"
+			href="https://onsdigital.github.io/svelte-components/"
+			mode="featured"
+			baseline
+		>
+			Explore the ONS svelte-components library used in this UI.
+		</Card>
+	</Grid>
+</Section>

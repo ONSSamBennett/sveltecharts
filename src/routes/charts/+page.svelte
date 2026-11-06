@@ -1,84 +1,73 @@
 <script>
-	// Chart components will be imported here as we build them
-	// import BarChart from '$lib/charts/BarChart.svelte';
-	
-	let selectedChart = 'bar';
+	import { resolve } from "$app/paths";
+	import { Section, Button, Grid, Card } from "@onsvisual/svelte-components";
+
+	let selectedChart = "bar";
 </script>
 
-<h2>Chart Components</h2>
+<Section marginTop={true}>
+	<h1>Chart Components</h1>
+	<p>This page demonstrates the SvelteCharts library components as they are developed.</p>
+</Section>
 
-<p>This page demonstrates the SvelteCharts library components as they are developed.</p>
-
-<h3>Status: Foundation Ready</h3>
-<p>
-	✅ Development environment is set up and ready.<br>
-	Next step: Build and test individual chart components starting with BarChart.
-</p>
-
-<div class="chart-selector">
-	<h4>Select a Chart</h4>
-	<div class="buttons">
-		<button class:active={selectedChart === 'bar'} on:click={() => selectedChart = 'bar'}>
+<Section>
+	<h2>Select a Chart Type</h2>
+	<div class="button-group">
+		<Button on:click={() => (selectedChart = "bar")} selected={selectedChart === "bar"}>
 			Bar Chart
-		</button>
-		<button class:active={selectedChart === 'line'} on:click={() => selectedChart = 'line'}>
+		</Button>
+		<Button on:click={() => (selectedChart = "line")} selected={selectedChart === "line"}>
 			Line Chart
-		</button>
-		<button class:active={selectedChart === 'column'} on:click={() => selectedChart = 'column'}>
+		</Button>
+		<Button on:click={() => (selectedChart = "column")} selected={selectedChart === "column"}>
 			Column Chart
-		</button>
+		</Button>
 	</div>
-</div>
+</Section>
 
-<div class="chart-demo">
-	{#if selectedChart === 'bar'}
-		<div class="placeholder">
-			<p>📊 BarChart component will render here</p>
-			<p><small>Coming soon...</small></p>
-		</div>
-	{:else if selectedChart === 'line'}
-		<div class="placeholder">
-			<p>📈 LineChart component will render here</p>
-			<p><small>Coming soon...</small></p>
-		</div>
-	{:else if selectedChart === 'column'}
-		<div class="placeholder">
-			<p>📊 ColumnChart component will render here</p>
-			<p><small>Coming soon...</small></p>
-		</div>
-	{/if}
-</div>
+<Section>
+	<div class="chart-demo">
+		{#if selectedChart === "bar"}
+			<div class="placeholder">
+				<h3>📊 BarChart Component</h3>
+				<p>Horizontal bar chart with identity-keyed transitions</p>
+				<p class="status">Coming soon...</p>
+			</div>
+		{:else if selectedChart === "line"}
+			<div class="placeholder">
+				<h3>📈 LineChart Component</h3>
+				<p>Single and multi-series line charts with smooth transitions</p>
+				<p class="status">Coming soon...</p>
+			</div>
+		{:else if selectedChart === "column"}
+			<div class="placeholder">
+				<h3>📊 ColumnChart Component</h3>
+				<p>Vertical column chart with optional stacking</p>
+				<p class="status">Coming soon...</p>
+			</div>
+		{/if}
+	</div>
+</Section>
+
+<Section>
+	<h2>Chart Status</h2>
+	<p>Chart components are under development. Check back soon for interactive examples.</p>
+	<Grid>
+		<Card title="View Specifications" href="https://github.com/ONSSamBennett/sveltecharts" baseline>
+			See the USER_NEEDS.md and REQUIREMENTS.md for complete specifications.
+		</Card>
+		<Card title="GitHub Issues" href="https://github.com/ONSSamBennett/sveltecharts/issues" baseline>
+			Track development progress and contribute feedback.
+		</Card>
+	</Grid>
+</Section>
 
 <style>
-	.chart-selector {
-		margin: 2rem 0;
-	}
-
-	.buttons {
+	.button-group {
 		display: flex;
 		gap: 1rem;
-		margin: 1rem 0;
-	}
-
-	button {
-		padding: 0.75rem 1.5rem;
-		border: 2px solid #ddd;
-		background: white;
-		border-radius: 4px;
-		cursor: pointer;
-		font-weight: 500;
-		transition: all 0.3s;
-	}
-
-	button:hover {
-		border-color: #0087be;
-		color: #0087be;
-	}
-
-	button.active {
-		background: #0087be;
-		color: white;
-		border-color: #0087be;
+		margin: 1.5rem 0;
+		flex-wrap: wrap;
 	}
 
 	.chart-demo {
@@ -89,7 +78,8 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-top: 2rem;
+		margin: 2rem 0;
+		border: 1px solid #ddd;
 	}
 
 	.placeholder {
@@ -97,11 +87,17 @@
 		color: #666;
 	}
 
+	.placeholder h3 {
+		margin: 0 0 0.5rem 0;
+		color: #222;
+	}
+
 	.placeholder p {
 		margin: 0.5rem 0;
 	}
 
-	.placeholder small {
+	.placeholder .status {
 		color: #999;
+		font-style: italic;
 	}
 </style>
