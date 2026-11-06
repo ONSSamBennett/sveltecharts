@@ -1,0 +1,31 @@
+{
+  "name": "sveltecharts",
+  "version": "0.1.0",
+  "description": "Comprehensive, production-ready charts library for Svelte 5+",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "lint": "eslint src",
+    "format": "prettier --write \"src/**/*.{js,svelte,json,md}\""
+  },
+  "peerDependencies": {
+    "svelte": "^5.0.0",
+    "d3": "^6.0.0 || ^7.0.0"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^3.1.0",
+    "svelte": "^5.0.0",
+    "vite": "^5.0.0",
+    "vitest": "^1.0.0",
+    "@vitest/ui": "^1.0.0",
+    "d3": "^7.8.0",
+    "eslint": "^8.0.0",
+    "eslint-plugin-svelte": "^2.0.0",
+    "prettier": "^3.0.0",
+    "prettier-plugin-svelte": "^3.0.0"
+  }
+}
